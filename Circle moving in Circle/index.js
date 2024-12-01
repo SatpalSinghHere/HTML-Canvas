@@ -18,6 +18,13 @@ function Particle( a, b, pathRadius, radius, color) {
 
     this.radius = radius
     this.color = color
+
+    let toss = Math.random() - 0.5
+    if(toss > 0){
+        this.clockwise = true
+    }else{
+        this.clockwise = false
+    }
 }
 
 Particle.prototype.draw = function () {
@@ -33,10 +40,12 @@ Particle.prototype.update = function () {
     this.x = this.a + this.pathRadius * Math.cos(this.angle)
     this.y = this.b + this.pathRadius * Math.sin(this.angle)
 
-    this.angle += angularSpeed
-
-    
-    
+    if(this.clockwise){
+        this.angle += angularSpeed
+    }else{
+        this.angle -= angularSpeed
+    }
+       
     // if (this.x + this.radius > canvas.width || this.x - this.radius < 0) {
     //     this.vx = -this.vx
     // }
