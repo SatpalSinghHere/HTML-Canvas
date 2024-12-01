@@ -6,19 +6,18 @@ canvas.height = window.innerHeight
 
 let particles
 
-function circleEquation(x, radius){
-    return Math.floor(Math.sqrt(Math.pow(radius, 2) - Math.pow(x, 2)))
-}
+function Particle( a, b, pathRadius, radius, color) {
+    
+    this.a = a
+    this.b = b
+    this.pathRadius = pathRadius
 
-function Particle(x, y, vx, vy, radius, color, accX, accY) {
-    this.x = x
-    this.y = y
-    this.vx = vx
-    this.vy = vy
+    this.angle = Math.random() * 2 * Math.PI
+    this.x = this.a + this.pathRadius * Math.cos(this.angle)
+    this.y = this.b + this.pathRadius * Math.sin(this.angle)
+
     this.radius = radius
     this.color = color
-    this.accX = accX
-    this.accY = accY
 }
 
 Particle.prototype.draw = function () {
@@ -29,8 +28,13 @@ Particle.prototype.draw = function () {
 }
 
 Particle.prototype.update = function () {
-    this.x += this.vx
-    this.y += circleEquation(this.x, this.radius)
+    let angularSpeed = Math.PI / 200
+
+    this.x = this.a + this.pathRadius * Math.cos(this.angle)
+    this.y = this.b + this.pathRadius * Math.sin(this.angle)
+
+    this.angle += angularSpeed
+
     
     
     // if (this.x + this.radius > canvas.width || this.x - this.radius < 0) {
@@ -48,15 +52,13 @@ Particle.prototype.update = function () {
 function init() {
     particles = []
     for (let i = 0; i < 100; i++) {
-        let x = Math.random() * canvas.width
-        let y = Math.random() * canvas.height
-        let vx = Math.random() * 0.5 - 0.5
-        let vy = Math.random() * 2 - 1
+        let a = Math.random() * canvas.width
+        let b = Math.random() * canvas.height
+        let pathRadius = Math.random() * 50 + 10
         let radius = Math.random() * 20 + 2
         let color = 'grey'
-        let accX = Math.random() * 0.05 - 0.05
-        let accY = Math.random() * 0.05 - 0.05
-        particles.push(new Particle( x, y, vx, vy, radius, color, accX, accY))
+        
+        particles.push(new Particle( a, b, pathRadius, radius, color))
     }
 
 }
