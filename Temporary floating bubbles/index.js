@@ -51,15 +51,15 @@ Particle.prototype.update = function () {
     }
 
     if (this.radiusUp) {
-        this.radius += 0.1
+        this.radius += 0.05
     } else {
-        this.radius -= 0.1
+        this.radius -= 0.05
     }
 
-    if (this.radius > 20) {
+    if (this.radius > 5) {
         this.radiusUp = false
     }
-    if (this.radius < 1) {
+    if (this.radius < 0.2) {
         this.a = Math.random() * innerWidth
         this.b = Math.random() * innerHeight
         this.radiusUp = true
@@ -72,7 +72,7 @@ function createNewParticle() {
     let a = Math.random() * canvas.width
     let b = Math.random() * canvas.height
     let pathRadius = Math.random() * 50 + 10
-    let radius = Math.random() * 18 + 0.5
+    let radius = Math.random() * 5 + 0.5
     let color = 'grey'
 
     return new Particle(a, b, pathRadius, radius, color)
