@@ -60,7 +60,7 @@ Particle.prototype.update = function () {
 
 function init() {
     particles = []
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < 200; i++) {
         let a = Math.random() * canvas.width
         let b = Math.random() * canvas.height
         let pathRadius = Math.random() * 50 + 10
