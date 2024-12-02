@@ -6,7 +6,7 @@ canvas.height = window.innerHeight
 
 let particles
 
-function Particle( a, b, pathRadius, radius, color) {
+function Particle(a, b, pathRadius, radius, color) {
     
     this.a = a
     this.b = b
@@ -20,11 +20,14 @@ function Particle( a, b, pathRadius, radius, color) {
     this.color = color
 
     let toss = Math.random() - 0.5
-    if(toss > 0){
+    if (toss > 0) {
         this.clockwise = true
-    }else{
+    } else {
         this.clockwise = false
     }
+
+    this.radiusUp = true
+
 }
 
 Particle.prototype.draw = function () {
@@ -35,48 +38,60 @@ Particle.prototype.draw = function () {
 }
 
 Particle.prototype.update = function () {
+    console.log("updating particle")
     let angularSpeed = Math.PI / 200
 
     this.x = this.a + this.pathRadius * Math.cos(this.angle)
     this.y = this.b + this.pathRadius * Math.sin(this.angle)
 
-    if(this.clockwise){
+    if (this.clockwise) {
         this.angle += angularSpeed
-    }else{
+    } else {
         this.angle -= angularSpeed
     }
-       
-    // if (this.x + this.radius > canvas.width || this.x - this.radius < 0) {
-    //     this.vx = -this.vx
-    // }
 
-    // if (this.y + this.radius > canvas.height || this.y - this.radius < 0) {
-    //     this.vy = -this.vy
-    // }
+    if (this.radiusUp) {
+        this.radius += 0.1
+    } else {
+        this.radius -= 0.1
+    }
 
+    if (this.radius > 20) {
+        this.radiusUp = false
+    }
+    if (this.radius < 1) {
+        this.a = Math.random() * innerWidth
+        this.b = Math.random() * innerHeight
+        this.radiusUp = true
+    }
 
     this.draw()
+}
+
+function createNewParticle() {
+    let a = Math.random() * canvas.width
+    let b = Math.random() * canvas.height
+    let pathRadius = Math.random() * 50 + 10
+    let radius = Math.random() * 18 + 0.5
+    let color = 'grey'
+
+    return new Particle(a, b, pathRadius, radius, color)
 }
 
 function init() {
     particles = []
     for (let i = 0; i < 100; i++) {
-        let a = Math.random() * canvas.width
-        let b = Math.random() * canvas.height
-        let pathRadius = Math.random() * 50 + 10
-        let radius = Math.random() * 20 + 2
-        let color = 'grey'
         
-        particles.push(new Particle( a, b, pathRadius, radius, color))
+        particles.push(createNewParticle())
     }
 
 }
 
 function animate() {
     requestAnimationFrame(animate)
-    ctx.clearRect(0,0, innerWidth, innerHeight)
+    ctx.clearRect(0, 0, innerWidth, innerHeight)
 
-    for (let i = 0; i < particles.length; i++){
+    for (let i = 0; i < particles.length; i++) {
         particles[i].update()
 
     }
