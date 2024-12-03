@@ -6,8 +6,7 @@ canvas.height = window.innerHeight
 
 let particles
 
-function Particle(a, b, pathRadius, radius, color) {
-    
+function Particle(a, b, pathRadius, radius, color) {    
     this.a = a
     this.b = b
     this.pathRadius = pathRadius
